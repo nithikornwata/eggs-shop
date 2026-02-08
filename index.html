@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ร้านผู้ชายขายไข่</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  font-family:sans-serif;
+  margin:0;
+  background:#f4f6f8;
+}
+header{
+  background:linear-gradient(135deg,#ffd84d,#ffb703);
+  padding:18px;
+  text-align:center;
+}
+header h1{margin:0}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+}
+.section{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+}
+.section-title{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px dashed #ddd;
+}
+.item:last-child{border-bottom:none}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.qty button{
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:50%;
+  background:#ffb703;
+  font-size:18px;
+}
+.qty span{
+  min-width:24px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.topping label{
+  display:block;
+  padding:4px 0;
+}
+
+.total{
+  background:#fff;
+  padding:16px;
+  border-radius:16px;
+  font-size:22px;
+  text-align:right;
+}
+.order-btn{
+  width:100%;
+  padding:18px;
+  font-size:22px;
+  border:none;
+  border-radius:18px;
+  background:#2ecc71;
+  color:#fff;
+}
+
+/* ===== หน้า QR ===== */
+#paymentPage{
+  display:none;
+  text-align:center;
+  padding:20px;
+}
+#summary{
+  max-width:400px;
+  margin:10px auto;
+  text-align:left;
+  background:#fff;
+  padding:12px;
+  border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🍳 ร้านผู้ชายขายไข่</h1>
+</header>
+
+<!-- ===== หน้าเมนู ===== -->
+<div id="menuPage" class="container">
+
+<div class="section">
+<label>หมายเลขโต๊ะ</label>
+<input id="table" type="number" style="width:100%;padding:10px;font-size:18px">
+</div>
+
+<!-- ไข่เจียว -->
+<div class="section">
+<div class="section-title">🍳 ไข่เจียว</div>
+
+<div class="item">ไข่เจี๊ยวธรรมดา 30
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="ไข่เจี๊ยวธรรมดา" data-price="30">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">ไข่เจี๊ยวสองฟอง 35
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="ไข่เจี๊ยวสองฟอง" data-price="35">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">เพิ่มข้าว 5
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="เพิ่มข้าว" data-price="5">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+</div>
+
+<!-- มาม่า -->
+<div class="section">
+<div class="section-title">🍜 มาม่า</div>
+
+<div class="item">มาม่าเผ็ดเกาหลี 49
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="มาม่าเผ็ดเกาหลี" data-price="49">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">มาม่าคาโบนาร่า 49
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="มาม่าคาโบนาร่า" data-price="49">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">เพิ่มเบค่อน 10
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="เพิ่มเบค่อน" data-price="10">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">เพิ่มไข่กุ้ง 10
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="เพิ่มไข่กุ้ง" data-price="10">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">เพิ่มเส้น 10
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="เพิ่มเส้น" data-price="10">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+</div>
+
+<!-- น้ำแข็งไส -->
+<div class="section">
+<div class="section-title">🍧 น้ำแข็งไส</div>
+
+<!-- ธรรมดา -->
+<div class="item">
+น้ำแข็งไสธรรมดา 20 บาท
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="น้ำแข็งไสธรรมดา" data-price="20">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div>
+</div>
+
+<!-- พิเศษ -->
+<div class="item">
+น้ำแข็งไสพิเศษ (ใส่เครื่องได้ 3 อย่าง)
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="น้ำแข็งไสพิเศษ" data-price="25">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div>
+</div>
+
+<hr style="margin:12px 0">
+
+<b>✔️ เครื่องที่เลือกได้ (ฟรี)</b>
+<div class="topping">
+<label><input type="checkbox" data-name="วุ้นมะพร้าว (ฟรี)"> วุ้นมะพร้าว</label>
+<label><input type="checkbox" data-name="วุ้นมะพร้าวครีมโซดา (ฟรี)"> วุ้นมะพร้าวครีมโซดา</label>
+<label><input type="checkbox" data-name="วุ้นมะพร้าวบราวน์ซูก้า (ฟรี)"> วุ้นมะพร้าวบราวน์ซูก้า</label>
+<label><input type="checkbox" data-name="เฉาก๊วย (ฟรี)"> เฉาก๊วย</label>
+<label><input type="checkbox" data-name="ขนมปัง (ฟรี)"> ขนมปัง</label>
+<label><input type="checkbox" data-name="ข้าวโพด (ฟรี)"> ข้าวโพด</label>
+</div>
+
+<br>
+
+<b>➕ ท็อปปิ้งเพิ่ม (+5 บาท)</b>
+<div class="topping">
+<label>
+  <input type="checkbox" data-name="วุ้นมะพร้าว (เพิ่ม)" data-price="5" onchange="calc()"> วุ้นมะพร้าว +5
+</label>
+<label>
+  <input type="checkbox" data-name="วุ้นมะพร้าวครีมโซดา (เพิ่ม)" data-price="5" onchange="calc()"> วุ้นมะพร้าวครีมโซดา +5
+</label>
+<label>
+  <input type="checkbox" data-name="วุ้นมะพร้าวบราวน์ซูก้า (เพิ่ม)" data-price="5" onchange="calc()"> วุ้นมะพร้าวบราวน์ซูก้า +5
+</label>
+<label>
+  <input type="checkbox" data-name="เฉาก๊วย (เพิ่ม)" data-price="5" onchange="calc()"> เฉาก๊วย +5
+</label>
+<label>
+  <input type="checkbox" data-name="ขนมปัง (เพิ่ม)" data-price="5" onchange="calc()"> ขนมปัง +5
+</label>
+<label>
+  <input type="checkbox" data-name="ข้าวโพด (เพิ่ม)" data-price="5" onchange="calc()"> ข้าวโพด +5
+</label>
+</div>
+
+</div>
+
+
+<!-- เครื่องดื่ม -->
+<div class="section">
+<div class="section-title">🥤 เครื่องดื่ม</div>
+
+<div class="item">แอปเปิ้ลโซดา 35
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="แอปเปิ้ลโซดา" data-price="35">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">ลิ้นจี่โซดา 35
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="ลิ้นจี่โซดา" data-price="35">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+
+<div class="item">สตอเบอร์รี่โซดา 35
+<div class="qty">
+<button onclick="changeQty(this,-1)">-</button>
+<span data-name="สตอเบอร์รี่โซดา" data-price="35">0</span>
+<button onclick="changeQty(this,1)">+</button>
+</div></div>
+</div>
+
+<div class="total">
+รวม <span id="total">0</span> บาท
+</div>
+
+<button class="order-btn" onclick="order()">สั่งอาหาร</button>
+</div>
+
+<!-- ===== หน้า QR ===== -->
+<div id="paymentPage">
+<h1>💸 ชำระเงิน</h1>
+<div id="summary"></div>
+<h2>ยอดชำระ <span id="payTotal"></span> บาท</h2>
+<img id="qr" width="260">
+<p>สแกน PromptPay แล้วรออาหาร 🍳</p>
+</div>
+
+<script>
+function changeQty(btn,delta){
+  const span = btn.parentElement.querySelector("span");
+  let qty = parseInt(span.textContent);
+  span.textContent = Math.max(0, qty + delta);
+  calc();
+}
+
+function calc(){
+  let total = 0;
+  document.querySelectorAll("span[data-price]").forEach(s=>{
+    total += parseInt(s.dataset.price) * parseInt(s.textContent);
+  });
+  document.querySelectorAll("input[type=checkbox]:checked").forEach(c=>{
+    total += parseInt(c.dataset.price);
+  });
+  document.getElementById("total").textContent = total;
+}
+
+function order(){
+  const total = document.getElementById("total").textContent;
+  if(total==0){ alert("กรุณาเลือกเมนู"); return; }
+
+  document.getElementById("menuPage").style.display="none";
+  document.getElementById("paymentPage").style.display="block";
+  document.getElementById("payTotal").textContent = total;
+
+  let html="<h3>🧾 รายการที่สั่ง</h3><ul>";
+  document.querySelectorAll("span[data-price]").forEach(s=>{
+    if(s.textContent>0){
+      html+=`<li>${s.dataset.name} x ${s.textContent}</li>`;
+    }
+  });
+  document.querySelectorAll("input[type=checkbox]:checked").forEach(c=>{
+    html+=`<li>${c.dataset.name}</li>`;
+  });
+  html+="</ul>";
+  document.getElementById("summary").innerHTML=html;
+
+  const promptpay="0968586535";
+  document.getElementById("qr").src =
+    `https://promptpay.io/${promptpay}/${total}`;
+}
+</script>
+
+</body>
+</html>
